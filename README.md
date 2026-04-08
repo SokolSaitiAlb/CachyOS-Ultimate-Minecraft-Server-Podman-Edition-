@@ -20,7 +20,8 @@ By utilizing **Podman** and **Java 25**, this setup achieves industry-leading MS
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/ALBKESTRELYTofficial/minecraft-server-cachyos.git](https://github.com/ALBKESTRELYTofficial/minecraft-server-cachyos.git)
+   git clone 
+https://github.com/SokolSaitiAlb/CachyOS-Ultimate-Minecraft-Server-Podman-Edition-.git
    cd minecraft-server-cachyos
    ```
    2. **Deploy the server:**
