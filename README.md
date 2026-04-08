@@ -22,3 +22,6 @@ By utilizing **Podman** and **Java 25**, this setup achieves industry-leading MS
    ```bash
    git clone [https://github.com/ALBKESTRELYTofficial/minecraft-server-cachyos.git](https://github.com/ALBKESTRELYTofficial/minecraft-server-cachyos.git)
    cd minecraft-server-cachyos
+   ```
+
+   
