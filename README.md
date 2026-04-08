@@ -52,20 +52,15 @@ If you run this script
 setup. sh
 ```
 bash
-
 #!/bin/bash echo "Installing Netdata and Podman..."
-
 sudo pacman -S --needed netdata
-
 podman podman-compose
-
 sudo systemctl enable --now netdata echo "Deploying Minecraft
-
 Server..."
-
 podman-compose up -d echo "Setup Complete! Visit http:// localhost:19999 for metrics."
 ```
+
 Don't forget to make it executable: by
 ```
- chmod +x setup.sh
+chmod +x setup.sh
  ```
