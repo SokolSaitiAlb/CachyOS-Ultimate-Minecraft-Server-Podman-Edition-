@@ -49,6 +49,7 @@ Check the real-world benchmarks from this setup:
 [Spark Profiler Results - 1.25ms MSPT](https://spark.lucko.me/M3urS6chtY)
 ---
 
+
 If you run this script
 
 ```
@@ -62,8 +63,8 @@ Server..."
 podman-compose up -d echo "Setup Complete! Visit http:// localhost:19999 for metrics."
 ```
 
-Don't forget to make it executable: by
-
+Don't forget to make it executable:
 ```
 chmod +x setup.sh
 ```
+---
