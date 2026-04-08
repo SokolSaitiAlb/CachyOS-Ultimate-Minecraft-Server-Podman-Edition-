@@ -48,9 +48,11 @@ By utilizing **Podman** and **Java 25**, this setup achieves industry-leading MS
 Check the real-world benchmarks from this setup:
 [Spark Profiler Results - 1.25ms MSPT](https://spark.lucko.me/M3urS6chtY)
 ---
+
 If you run this script
-setup. sh
+
 ```
+setup. sh
 bash
 #!/bin/bash echo "Installing Netdata and Podman..."
 sudo pacman -S --needed netdata
@@ -61,7 +63,7 @@ podman-compose up -d echo "Setup Complete! Visit http:// localhost:19999 for met
 ```
 
 Don't forget to make it executable: by
+
 ```
 chmod +x setup.sh
-
- ```
+```
