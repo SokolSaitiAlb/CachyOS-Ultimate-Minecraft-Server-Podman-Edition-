@@ -23,5 +23,31 @@ By utilizing **Podman** and **Java 25**, this setup achieves industry-leading MS
    git clone [https://github.com/ALBKESTRELYTofficial/minecraft-server-cachyos.git](https://github.com/ALBKESTRELYTofficial/minecraft-server-cachyos.git)
    cd minecraft-server-cachyos
    ```
+   2. **Deploy the server:**
+   ```bash
+   podman-compose up -d
+   
+   ```
+ 3. **Check logs:**
+   ```bash
+   podman logs -f cachyos-mc-server
+   
+   ```
+## 📊 Performance Specs
+ * **Engine:** PaperMC 1.21.x
+ * **MSPT:** 1.25ms (Median)
+ * **RAM Allocation:** 4GB
+ * **CPU Threads:** 12 (Intel i5-12400F)
+*Developed by **Alb Kestrel** for the Linux Gaming Community.*
+```
+---
+### 🎥 Watch the Full Technical Breakdown
+[Alb Kestrel on YouTube](https://youtube.com/@ALBKESTRELYTofficial)
+
+### 📊 Verified Performance Report
+Check the real-world benchmarks from this setup:
+[Spark Profiler Results - 1.25ms MSPT](https://spark.lucko.me/M3urS6chtY)
+---
+
 
    
