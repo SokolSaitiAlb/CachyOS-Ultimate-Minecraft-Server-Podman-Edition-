@@ -1,3 +1,3 @@
-echo "data/" > ~/minecraft-server/.gitignore
-echo "*.log" >> ~/minecraft-server/.gitignore
-echo ".DS_Store" >> ~/minecraft-server/.gitignore
+data/
+*.log
+.DS_Store
