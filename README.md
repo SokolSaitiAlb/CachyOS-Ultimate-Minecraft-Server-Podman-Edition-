@@ -63,4 +63,5 @@ podman-compose up -d echo "Setup Complete! Visit http:// localhost:19999 for met
 Don't forget to make it executable: by
 ```
 chmod +x setup.sh
+
  ```
