@@ -1,28 +1,27 @@
 #!/bin/bash
-set -e # Exit immediately if a command fails
+set -e
 
-echo "🚀 Initializing CachyOS Ultimate Minecraft Deploy..."
+echo "🚀 Starting CachyOS Ultimate Minecraft Deploy..."
 
-# Check for CachyOS/Arch
-if [ ! -f /etc/arch-release ]; then
-    echo "❌ Error: This script is optimized for CachyOS/Arch Linux."
-    exit 1
+# Verify Environment
+if ! grep -q "cachyos" /etc/os-release; then
+    echo "⚠️ Warning: Not running on CachyOS. Performance results may vary."
 fi
 
-echo "📦 Installing Dependencies..."
-sudo pacman -S --needed netdata podman podman-compose git
+echo "📦 Installing Podman and Netdata..."
+sudo pacman -S --needed netdata podman podman-compose git -y
 
-echo "⚙️ Enabling Metrics (Netdata)..."
+echo "⚙️ Initializing Metrics..."
 sudo systemctl enable --now netdata
 
-echo "🏗️ Deploying Podman Container..."
-if [ -f "compose.yaml" ]; then
-    podman-compose up -d
-else
-    echo "❌ Error: compose.yaml not found in directory!"
+echo "🏗️ Building Container..."
+if [ ! -f "compose.yaml" ]; then
+    echo "❌ Error: compose.yaml is missing from this directory!"
     exit 1
 fi
 
-echo "✅ Setup Complete!"
-echo "📊 Metrics: http://localhost:19999"
-echo "📜 Logs: podman logs -f cachyos-mc-server"
+podman-compose up -d
+
+echo "✅ Deployment Successful!"
+echo "📊 Monitor Hardware: http://localhost:19999"
+echo "🎮 Server Logs: podman logs -f cachyos-mc-server"
