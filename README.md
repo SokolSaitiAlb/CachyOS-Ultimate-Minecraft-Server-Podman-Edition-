@@ -41,7 +41,7 @@ podman logs -f cachyos-mc-server
 ​Developed by Alb Kestrel for the Linux Gaming Community.
 
 ​🎥 Watch the Full Technical Breakdown
-https://youtube.com/c/AlbKestrel
+https://youtube.com/@albkestrelytofficial
 
 ​📊 Verified Performance Report
 Spark Profiler Results - 1.25ms MSPT: https://spark.lucko.me/M3urS6chtY
