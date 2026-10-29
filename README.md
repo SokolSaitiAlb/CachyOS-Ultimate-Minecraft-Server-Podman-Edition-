@@ -1,47 +1,57 @@
-CachyOS Ultimate Minecraft Server (Podman Edition) 🚀
+# CachyOS Ultimate Minecraft Server (Podman Edition)
 
-​This repository contains the configuration for a high-performance Minecraft: Java Edition server, optimized specifically for CachyOS and the BORE Scheduler.
-​By utilizing Podman and Java 21, this setup achieves industry-leading MSPT (1.4ms) and perfect 20.0 TPS while maintaining a minimal system footprint.
+Konfigurim për një server Minecraft Java/Paper në Podman Compose, me ruajtje të të dhënave në `./data` dhe opsione monitorimi.
 
-​🛠 Features
-​Containerized Architecture: Managed via Podman-Compose for zero-overhead resource isolation.
-​Kernel Optimization: Leverages the CachyOS-BORE kernel for interactive task prioritization.
-​Automated Backups: Dedicated volume mapping to secondary storage.
-​Advanced Flags: Pre-configured with Aikar's G1GC optimization flags.
-​Monitoring: Ready for real-time observability via Netdata and Spark.
+## Kërkesat
 
-​📋 Prerequisites
-​OS: CachyOS (Arch-based)
-​Container Engine: podman and podman-compose
-​Hardware: Optimized for Intel 12th Gen (i5-12400F) + AMD RX 6800
+- CachyOS ose një shpërndarje Linux me Podman dhe `podman-compose`
+- OpenSSL për gjenerimin e një sekretit të rastësishëm
+- Porti `25565/tcp` i hapur vetëm nëse dëshiron që lojtarët të lidhen nga pajisje të tjera
 
-​🚀 Quick Start
-​Clone the Repository:
+## Konfigurimi i sigurt
 
-git clone https://github.com/SokolSaitiAlb/CachyOS-Ultimate-Minecraft-Server-Podman-Edition-.git
+**Mos vendos fjalëkalime në `compose.yaml` ose në Git.** Fjalëkalimi i vjetër RCON u publikua në historikun e këtij projekti. Trajtoje si të komprometuar: vendos një sekret të ri dhe rikrijo kontejnerin. Heqja e tij nga skedari aktual nuk e fshin nga commit-et e vjetra.
 
-cd CachyOS-Ultimate-Minecraft-Server-Podman-Edition-
+1. Krijo konfigurimin lokal dhe kufizo lejet e tij:
 
-​Run the Setup Script
-Make the included script executable and run it to install dependencies and deploy the server automatically:
+   ```bash
+   cp .env.example .env
+   chmod 600 .env
+   ```
 
-chmod +x setup.sh
-./setup.sh
+2. Gjenero një fjalëkalim të ri:
 
-​Check Live Logs
-Monitor the server boot process and player activity:
+   ```bash
+   openssl rand -hex 32
+   ```
 
+   Vendose rezultatin pas `RCON_PASSWORD=` në skedarin lokal `.env`. Mos e vendos vlerën në README, terminal logs, issue apo commit.
+
+3. Nise shërbimin pasi të jetë konfiguruar sekreti:
+
+   ```bash
+   ./setup.sh
+   ```
+
+   Ose, nëse Podman dhe podman-compose janë instaluar tashmë:
+
+   ```bash
+   podman-compose up -d --force-recreate
+   ```
+
+RCON publikohet vetëm në `127.0.0.1:25575`; nuk është i arritshëm drejtpërdrejt nga pajisjet e tjera të rrjetit. Porta e lojës është `25565`. Mos e ndrysho lidhjen RCON në `0.0.0.0` ose në publik pa kontroll të firewall-it dhe një nevojë të dokumentuar.
+
+## Operacionet
+
+```bash
 podman logs -f cachyos-mc-server
+podman ps
+```
 
-​📊 Performance Specs
-​Engine: PaperMC 1.21.x
-​MSPT: 1.25ms (Median)
-​RAM Allocation: 4GB
-​CPU Threads: 12 (Intel i5-12400F)
-​Developed by Alb Kestrel for the Linux Gaming Community.
+Të dhënat e serverit ruhen te `./data` dhe përjashtohen nga Git. Bëj kopje rezervë të kësaj direktorie përpara përditësimeve.
 
-​🎥 Watch the Full Technical Breakdown
-https://youtube.com/@albkestrelytofficial
+## Shënim sigurie
 
-​📊 Verified Performance Report
-Spark Profiler Results - 1.25ms MSPT: https://spark.lucko.me/M3urS6chtY
+- `.env` është lokal dhe i përjashtuar nga Git; vetëm `.env.example` publikohet.
+- Rrotullimi i sekretit kërkon konfigurimin e një vlere të re dhe rikrijimin e kontejnerit.
+- Mos ekspozo RCON në internet. Për administrim nga larg, përdor VPN/SSH tunneling në vend të një porte RCON publike.
