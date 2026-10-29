@@ -1,0 +1,62 @@
+name: Compose Security Validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-compose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate setup script syntax
+        run: bash -n setup.sh
+
+      - name: Prove setup fails safely without a local secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .env
+          if bash setup.sh > "$RUNNER_TEMP/setup-without-secret.log" 2>&1; then
+            echo "setup.sh unexpectedly succeeded without .env" >&2
+            exit 1
+          fi
+          grep -q "Missing .env" "$RUNNER_TEMP/setup-without-secret.log"
+
+      - name: Validate Compose interpolation and RCON binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          secret="$(openssl rand -hex 32)"
+          printf 'RCON_PASSWORD=%s\n' "$secret" > .env
+          chmod 600 .env
+          git check-ignore --quiet .env
+          docker compose config --quiet
+          docker compose config --format json > "$RUNNER_TEMP/compose.json"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          secret = Path(".env").read_text(encoding="utf-8").strip().split("=", 1)[1]
+          compose = json.loads(Path(os.environ["RUNNER_TEMP"], "compose.json").read_text(encoding="utf-8"))
+          service = compose["services"]["minecraft-server"]
+          assert service["environment"]["RCON_PASSWORD"] == secret
+          rcon = [
+              port for port in service["ports"]
+              if str(port.get("target")) == "25575" or str(port.get("published")) == "25575"
+          ]
+          assert len(rcon) == 1, rcon
+          assert rcon[0].get("host_ip") == "127.0.0.1", rcon
+          assert str(rcon[0].get("published")) == "25575", rcon
+          assert any(str(port.get("published")) == "25565" for port in service["ports"])
+          print("Compose interpolation is valid; RCON binds only to localhost.")
+          PY
+          rm -f .env
